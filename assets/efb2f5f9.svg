@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 20 17.5758" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mask group">
+<mask id="mask0_0_182" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="18">
+<path id="Rectangle 14" d="M9.18262 0.937495C9.68993 0.652171 10.3101 0.65217 10.8174 0.937495L18.7334 5.38964C19.2582 5.68483 19.583 6.24061 19.583 6.84277V15.4922C19.583 16.4125 18.8373 17.159 17.917 17.1592H2.08301C1.16268 17.159 0.416992 16.4125 0.416992 15.4922V6.84277C0.416992 6.24061 0.74176 5.68483 1.2666 5.38964L9.18262 0.937495Z" fill="var(--fill-0, #E78632)" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333"/>
+</mask>
+<g mask="url(#mask0_0_182)">
+<g id="Group 2">
+<rect id="Rectangle 11" x="3.83704" y="-0.492434" width="12.7425" height="16.1364" rx="1.25" fill="var(--fill-0, #EAEEF7)" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333"/>
+<path id="Vector 17" d="M5.45449 1.66663H14.8485" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round"/>
+<path id="Vector 18" d="M5.45449 3.78789H13.0303" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round"/>
+<path id="Vector 19" d="M5.45449 5.90911H14.8485" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round"/>
+<path id="Vector 20" d="M5.45449 8.03036H7.57571" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round"/>
+</g>
+<path id="Vector 23" d="M-2.31055 19.5705L-2.31055 5.88491L9.18555 12.7277L-2.31055 19.5705Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 24" d="M22.6136 19.5705L22.6136 5.88491L11.1175 12.7277L22.6136 19.5705Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 22" d="M9.19682 10.5697C9.77018 10.169 10.5326 10.1691 11.106 10.5697L20.0962 16.8539C21.4317 17.7879 20.7709 19.886 19.1412 19.8861H1.16167C-0.468115 19.8858 -1.12834 17.7877 0.207565 16.8539L9.19682 10.5697Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="0.833333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>

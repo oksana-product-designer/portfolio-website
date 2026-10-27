@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mask group">
+<mask id="mask0_0_397" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="46" height="46">
+<path id="Rectangle 41" d="M5 0.900391H41C43.2644 0.900391 45.0996 2.73563 45.0996 5V41C45.0996 43.2644 43.2644 45.0996 41 45.0996H5C2.73563 45.0996 0.900391 43.2644 0.900391 41V5C0.900391 2.73563 2.73563 0.900391 5 0.900391Z" fill="#C4D1ED" stroke="#0B2052" stroke-width="1.8"/>
+</mask>
+<g mask="url(#mask0_0_397)">
+<path id="Vector 31" d="M33.2929 28.7071L17.7071 44.2929C17.0771 44.9229 17.5233 46 18.4142 46H49.5858C50.4767 46 50.9229 44.9229 50.2929 44.2929L34.7071 28.7071C34.3166 28.3166 33.6834 28.3166 33.2929 28.7071Z" fill="#B97816" stroke="#0B2052" stroke-width="2"/>
+<path id="Vector 30" d="M14.2929 24.7071L-5.29289 44.2929C-5.92286 44.9229 -5.47669 46 -4.58578 46H34.5858C35.4767 46 35.9229 44.9229 35.2929 44.2929L15.7071 24.7071C15.3166 24.3166 14.6834 24.3166 14.2929 24.7071Z" fill="#EDA840" stroke="#0B2052" stroke-width="2"/>
+</g>
+</g>
+</svg>

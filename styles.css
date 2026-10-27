@@ -1,0 +1,2018 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* The game area (#gameArea) is a permanent full-viewport layer and is the
+     only backdrop now — no separate static background image underneath. */
+  background: #6ea8f7;
+  cursor: url('assets/cursor-default.svg') 5 4, auto;
+}
+
+/* ── Header ── */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  background: #1364b5;
+  box-shadow: inset 0 12px 20px rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  z-index: 20;
+  overflow: hidden;
+}
+.header-text {
+  position: absolute;
+  left: 40px;
+  white-space: nowrap;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  font-size: 18px;
+  line-height: 20px;
+}
+.header-text .semibold { font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+.header-text .regular  { font-family: 'IBM Plex Mono', monospace; font-weight: 400; }
+.header-clock {
+  position: absolute;
+  right: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+
+/* Header slides away while a game run is in progress (body.game-active is
+   toggled by the game; it stays on through game over until X is pressed) */
+.header { transition: transform 0.25s ease, opacity 0.2s ease; }
+body.game-active .header {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Desktop icons ── */
+.sidebar {
+  position: fixed;
+  left: 40px;
+  top: 104px;
+  width: 91px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  z-index: 10;
+}
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+}
+.icon-item:hover { opacity: 0.85; }
+
+.icon-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.trash-icon {
+  position: fixed;
+  right: 40px;
+  top: 104px;
+  width: 91px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  z-index: 10;
+}
+.trash-icon:hover { opacity: 0.85; }
+
+/* ── Icon base ── */
+.ic {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+.ic img { display: block; max-width: none; }
+
+/* ── Icon / About ── */
+.ic-about-page1 {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 8.85%; bottom: 1.15%;
+  width: 37.083px;
+  background: #eaeef7;
+  border: 2px solid #0b2052;
+  border-radius: 3.6px;
+}
+.ic-about-page2 {
+  position: absolute;
+  left: calc(50% - 0.8px); transform: translateX(-50%);
+  top: 8.85%; bottom: 1.15%;
+  width: 35.484px;
+  background: #eaeef7;
+  border: 2px solid #0b2052;
+  border-radius: 3.6px;
+}
+.ic-about-line { position: absolute; }
+
+/* ── Icon / Folder & FolderLinks ── */
+.ic-folder-union { position: absolute; top: 8.06%; right: 16.13%; bottom: 8.06%; left: 0; }
+.ic-folder-body  { position: absolute; top: 29.03%; right: 0; bottom: 8.06%; left: 0; }
+.ic-folder-body img { position: absolute; inset: 0 2.35% 0 0.94%; width: calc(100% - 3.29%); height: 100%; }
+.ic-folder-link-icon { position: absolute; left: 12px; top: 17px; width: 24px; height: 24px; overflow: hidden; }
+
+/* ── Icon / CV ── */
+.ic-cv-doc {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 2.92%; bottom: 7.08%;
+  width: 34.56px;
+}
+.ic-cv-badge {
+  position: absolute; right: 0; bottom: 0;
+  width: 16px; height: 16px;
+  background: #0b2052; border-radius: 3px;
+  box-shadow: 1px -1px 4px rgba(0,0,0,0.15);
+}
+.ic-cv-arrow { position: absolute; left: 34px; top: 34px; width: 12px; height: 12px; overflow: hidden; }
+
+/* ── Icon / Message ── */
+.ic-msg-back { position: absolute; top: 9.09%; right: 0; bottom: 3.03%; left: 0; }
+.ic-msg-back img { position: absolute; inset: 1.75% 0 0 0; width: 100%; height: calc(100% - 1.75%); }
+.ic-msg-mask { position: absolute; top: 9.09%; right: 0; bottom: 3.03%; left: 0; }
+.ic-msg-mask img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ── Icon / Calendar ── */
+.ic-cal-top {
+  position: absolute; top: 8.44%; right: 8.75%; bottom: 70.94%; left: 8.75%;
+  background: #1364b5; border: 1.8px solid #0b2052; border-radius: 4.5px 4.5px 0 0;
+}
+.ic-cal-body {
+  position: absolute; top: 25.31%; right: 8.75%; bottom: 9.06%; left: 8.75%;
+  background: #c4d1ed; border: 1.8px solid #0b2052; border-radius: 0 0 4.5px 4.5px;
+}
+.ic-cal-cell     { position: absolute; background: #eaeef7; border-radius: 1.8px; width: 6px; height: 6px; }
+.ic-cal-cell-red { position: absolute; background: #bc1f1f; border-radius: 4.5px;  width: 6px; height: 6px; }
+.ic-cal-badge    { position: absolute; right: 2px; bottom: 1px; width: 16px; height: 16px; background: #0b2052; border-radius: 3px; box-shadow: 1px -1px 4px rgba(0,0,0,0.15); }
+.ic-cal-arrow    { position: absolute; left: 32px; top: 33px; width: 12px; height: 12px; overflow: hidden; }
+
+
+/* ── Mario runner game ──
+   The Figma start-screen heading + Play button (#gameIdleOverlay) is what's
+   visible on the homepage by default — no separate ad-hoc trigger element.
+   40px tile unit throughout, scaled down from the Figma source's native
+   100px sprites (cloud/mountain/grasses/pipe scaled by the same 0.4 factor
+   from their own native sizes) so everything stays proportionally
+   consistent with the source art. */
+.game-area {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: #6ea8f7;
+  /* Base sprite/tile unit, fluid with viewport width so everything (ground,
+     Mario, obstacles, decoration, and the idle/gameover overlay text) scales
+     together — read at runtime by the game loop too, so physics/positioning
+     stay in sync with the visuals. Defined here (not on .game-scene) since
+     the overlays are siblings of .game-scene, not descendants of it —
+     custom properties only inherit down the tree they're set on. */
+  --tile: clamp(40px, 5vw, 100px);
+}
+
+/* The game area is a permanent homepage fixture — always rendered, never
+   display:none. Its idle state (icons + prompt, both visible together,
+   matching Figma's "mobile-home" reference) IS the page's default view;
+   there's no separate open/closed toggle for the area itself, only for
+   whether a run is actively in progress. Icons hide once gameplay starts
+   (state 'running'/'gameover') and reappear once it's back to 'idle' —
+   toggled on <body> (not via a sibling selector) since .sidebar comes
+   before #gameArea in the DOM. */
+body.game-active .sidebar { display: none; }
+
+.game-close-btn {
+  /* 44x44 is the min comfortable touch target — worth calling out since
+     everything else in this button set is tile-scaled and would otherwise
+     shrink below that on a small phone. Sits above the header (z-index 20)
+     is unnecessary here since it's positioned below the header's height,
+     not overlapping it; z-index only needs to clear the game scene/overlay
+     layers underneath it. */
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #f2f1e3;
+  color: #0b2052;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 6;
+}
+.game-close-btn:hover { background: #eaeef7; }
+/* display:flex above has equal specificity to the UA stylesheet's
+   [hidden] { display:none }, and author styles win that tie — without
+   this, the button stayed visible in the idle state despite the hidden
+   attribute. Same fix already applied to .game-hud[hidden]. */
+.game-close-btn[hidden] { display: none; }
+
+.game-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.game-cloud, .game-mountain, .game-grasses, .game-block-float, .game-block-row, .game-goomba-deco {
+  position: absolute;
+  will-change: transform;
+  image-rendering: pixelated;
+}
+.game-cloud {
+  width: calc(var(--tile) * 1.325); height: calc(var(--tile) * 0.95);
+  background: url('assets/cloud.png') 0 0 / 100% 100% no-repeat;
+}
+.game-cloud-a { top: calc(var(--tile) * 2); left: 16%; }
+.game-cloud-b { top: calc(var(--tile) * 1.2); }
+.game-mountain {
+  bottom: var(--tile);
+  width: calc(var(--tile) * 2.55); height: calc(var(--tile) * 1.075);
+  background: url('assets/mountain.png') 0 0 / 100% 100% no-repeat;
+}
+.game-grasses {
+  left: 26%;
+  bottom: var(--tile);
+  width: calc(var(--tile) * 2.975); height: calc(var(--tile) * 0.95);
+  background: url('assets/grasses.png') 0 0 / 100% 100% no-repeat;
+}
+.game-block-float {
+  left: 42%;
+  bottom: calc(var(--tile) * 3.25);
+  width: var(--tile); height: var(--tile);
+  background: url('assets/block-question-1.png') 0 0 / 100% 100% no-repeat;
+}
+.game-block-float-high { bottom: calc(var(--tile) * 6.45); }
+.game-block-row {
+  bottom: calc(var(--tile) * 3.25);
+  display: flex;
+}
+.game-tile { display: block; width: var(--tile); height: var(--tile); }
+.game-goomba-deco {
+  left: 71%;
+  bottom: var(--tile);
+  width: var(--tile); height: var(--tile);
+  background: url('assets/goomba-1.png') 0 0 / 100% 100% no-repeat;
+}
+.game-tile-block { background: url('assets/block-normal.png') 0 0 / 100% 100% no-repeat; }
+.game-tile-question { background: url('assets/block-question-1.png') 0 0 / 100% 100% no-repeat; }
+
+.game-ground {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: var(--tile);
+  background: url('assets/block-normal.png') 0 0 / var(--tile) var(--tile) repeat-x;
+  image-rendering: pixelated;
+}
+
+/* Invisible, 1 tile square — exists only so the game loop can measure the
+   resolved --tile px value at runtime (getComputedStyle on a custom
+   property returns unresolved clamp()/calc() text, not a px number). Used
+   to derive Mario's rendered width for that same purpose, but Mario/goomba
+   are now sized independently of --tile on mobile (84px sprite vs a 56px
+   ground grid, per the Figma mobile spec) — measuring Mario would read his
+   own fixed size instead of the actual grid unit. */
+.game-tile-probe {
+  position: absolute;
+  width: var(--tile);
+  height: var(--tile);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.game-mario {
+  position: absolute;
+  left: calc(var(--tile) * 1.2);
+  bottom: var(--tile);
+  width: var(--tile); height: var(--tile);
+  background: url('assets/mario-stop.png') 0 0 / 100% 100% no-repeat;
+  image-rendering: pixelated;
+  z-index: 2;
+}
+.game-mario.jumping { background-image: url('assets/mario-jump.png'); }
+
+.game-obstacles { position: absolute; inset: 0; }
+.game-obstacle {
+  position: absolute;
+  bottom: var(--tile);
+  width: var(--tile); height: var(--tile);
+  image-rendering: pixelated;
+  z-index: 2;
+}
+.game-obstacle.goomba { background: url('assets/goomba-1.png') 0 0 / 100% 100% no-repeat; }
+.game-obstacle.goomba.frame-2 { background-image: url('assets/goomba-2.png'); }
+.game-obstacle.koopa { background: url('assets/koopa-1.png') 0 0 / 100% 100% no-repeat; }
+.game-obstacle.koopa.frame-2 { background-image: url('assets/koopa-2.png'); }
+
+/* ── Platforms: question + normal blocks, solid on top, question blocks
+   also reactive when bonked from below ── */
+.game-platforms { position: absolute; inset: 0; }
+.game-platform {
+  position: absolute;
+  width: var(--tile); height: var(--tile);
+  image-rendering: pixelated;
+  z-index: 2;
+}
+.game-platform.question { background: url('assets/block-question-1.png') 0 0 / 100% 100% no-repeat; }
+.game-platform.question.hit { background-image: url('assets/block-normal.png'); }
+.game-platform.normal { background: url('assets/block-normal.png') 0 0 / 100% 100% no-repeat; }
+.game-platform.pipe {
+  width: calc(var(--tile) * 2.08); height: calc(var(--tile) * 1.95);
+  background: url('assets/pipe.png') 0 0 / 100% 100% no-repeat;
+}
+.game-platform.bounce { animation: platform-bounce 0.25s ease; }
+@keyframes platform-bounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-18%); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Coins: bonus pickups placed within Mario's jump arc ── */
+.game-coins { position: absolute; inset: 0; }
+.game-coin {
+  position: absolute;
+  width: var(--tile); height: var(--tile);
+  image-rendering: pixelated;
+  z-index: 2;
+  background: url('assets/coin-1.png') 0 0 / 100% 100% no-repeat;
+}
+.game-coin.f2 { background-image: url('assets/coin-2.png'); }
+.game-coin.f3 { background-image: url('assets/coin-3.png'); }
+.game-coin.f4 { background-image: url('assets/coin-4.png'); }
+
+/* Catch effects: a rising coinget sparkle + a coin_score flash with the
+   bonus value, both transient — spawned at the catch point and removed
+   once their animation finishes. */
+.game-effects { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.game-coinget {
+  position: absolute;
+  width: calc(var(--tile) * 0.14); height: var(--tile);
+  image-rendering: pixelated;
+  background: url('assets/coinget-1.png') 0 0 / 100% 100% no-repeat;
+}
+.game-coinget.f2 { background-image: url('assets/coinget-2.png'); }
+.game-coinget.f3 { background-image: url('assets/coinget-3.png'); }
+.game-coinget.f4 { background-image: url('assets/coinget-4.png'); }
+.game-coinget.f5 { background-image: url('assets/coinget-5.png'); }
+.game-coinget.f6 { background-image: url('assets/coinget-6.png'); }
+.game-coinget.f7 { background-image: url('assets/coinget-7.png'); }
+.game-coinget.f8 { background-image: url('assets/coinget-8.png'); }
+
+.game-coin-score {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.game-coin-score-icon {
+  width: calc(var(--tile) * 0.6); height: calc(var(--tile) * 0.6);
+  image-rendering: pixelated;
+  background: url('assets/coin-score-1.png') 0 0 / 100% 100% no-repeat;
+}
+.game-coin-score-icon.f2 { background-image: url('assets/coin-score-2.png'); }
+.game-coin-score-icon.f3 { background-image: url('assets/coin-score-3.png'); }
+.game-coin-score-icon.f4 { background-image: url('assets/coin-score-4.png'); }
+.game-coin-score-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: calc(var(--tile) * 0.3);
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+}
+
+.game-hud {
+  /* Exact spec pulled from Figma node 4176:38923 ("Frame 65", in-game
+     reference frame 4153:30795) — a navy pill wrapping the same "Score:
+     509" text node (4167:42660) that used to render as plain floating
+     text. Design was updated since that plain-text version was built: now
+     bg #0b2052, 8px radius, 12px/8px padding, and the text itself dropped
+     from 44px to 28px/16px line-height/1.12px tracking to fit the pill.
+     Frame 65's own container sits at y:96 (text is y:104 relative to a
+     1440x1024 canvas via the container's 8px top padding) — matches the
+     site's real 48px .header 1:1, same as the previous plain-text version. */
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #0b2052;
+  font-family: 'Jersey 10', 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 16px;
+  letter-spacing: 1.12px;
+  color: #fff;
+  white-space: nowrap;
+  z-index: 3;
+}
+/* display:inline-flex above has equal specificity to the UA stylesheet's
+   [hidden] { display:none }, and author styles win that tie — without this,
+   the badge stayed visible through gameover despite gameHud.hidden = true.
+   Same fix already applied to .game-overlay below. */
+.game-hud[hidden] { display: none; }
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  z-index: 4;
+}
+.game-overlay[hidden] { display: none; }
+.game-idle-heading {
+  /* Exact spec pulled from the Figma text layer (node 4153:30776): Jersey 25
+     Regular, 80px/80px, white, hard 2px/2px offset shadow (no blur) in
+     #0b2052 — not the site's usual IBM Plex Mono. Sized off --tile since
+     the reference frame's own tile unit is ~80px (1:1 with the font size). */
+  font-family: 'Jersey 25', 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  font-size: var(--tile);
+  line-height: 1;
+  color: #fff;
+  text-shadow: calc(var(--tile) * 0.025) calc(var(--tile) * 0.025) 0 #0b2052;
+  margin: 0;
+}
+.game-score-line {
+  /* Exact spec pulled from the Figma text layer (node 4167:42660, sibling of
+     the "Game over" heading at 4153:30842): IBM Plex Mono SemiBold, 20px/32px,
+     -0.4px tracking, white, no shadow. Sized off --tile at the same 1:80
+     ratio the heading uses. */
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: calc(var(--tile) * 0.25);
+  line-height: calc(var(--tile) * 0.4);
+  letter-spacing: calc(var(--tile) * -0.005);
+  color: #fff;
+  margin: 0;
+}
+
+.game-hint {
+  /* Not in the Figma reference (which shows heading + button only) — added
+     so touch users have a visible affordance for tap-to-play/restart, since
+     the button is the only other cue and "tap anywhere" isn't otherwise
+     discoverable. Kept deliberately smaller/quieter than .game-score-line
+     so it reads as a secondary aside, not competing with the real CTA. */
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: calc(var(--tile) * 0.175);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  margin: 0;
+}
+
+.game-btn {
+  /* Exact spec pulled from the Figma "Start over" button (node 4153:30844):
+     outer #0b2052, inner #f2f1e3 with a #0b2052 border, #0b2052 text. */
+  background: #0b2052;
+  border-radius: 8px;
+  border: none;
+  padding-bottom: 2px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.game-btn-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 8px 16px;
+  background: #f2f1e3;
+  border: 1px solid #0b2052;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0b2052;
+  white-space: nowrap;
+}
+.game-btn:hover .game-btn-inner { background: #eaeef7; }
+.game-btn-arrow { color: #1364b5; }
+.game-btn-icon { width: 16px; height: 16px; display: block; }
+
+/* Idle screen's "Play" button matches the site's primary orange button
+   (.btn-send) instead of the neutral white one Game Over uses. */
+.game-btn-play { background: #b97816; }
+.game-btn-play .game-btn-inner { background: #eda840; border-color: #b97816; }
+.game-btn-play:hover .game-btn-inner { background: #f5b84a; }
+.game-btn-play .game-btn-arrow { color: #262b37; }
+
+/* ── Modal container (cat removed, keeping wrapper) ── */
+.modal-container {
+  position: relative;
+}
+
+/* ── Header cat ── */
+/* Outer: translateX walk  |  Middle: scaleX flip  |  Img: scaleY+Y step */
+.header-cat-outer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 51px;
+  pointer-events: none;
+  z-index: 5;
+  animation: hcat-walk 24.24s linear infinite;
+}
+
+@keyframes hcat-walk {
+  /* right→left in first 49.5%, hold 0.5% for flip, left→right back */
+  0%      { transform: translateX(calc(77vw)); }
+  49.5%   { transform: translateX(calc(36vw)); animation-timing-function: step-start; }
+  50%     { transform: translateX(calc(36vw)); }
+  99.5%   { transform: translateX(calc(77vw)); animation-timing-function: step-start; }
+  100%    { transform: translateX(calc(77vw)); }
+}
+
+.header-cat-flip {
+  width: 51px;
+  height: 40px;
+}
+
+/* scaleX flip at midpoint (8000ms) and end (16080ms) with exact Figma beziers */
+.header-cat-flip {
+  animation: hcat-flip 24.24s linear infinite;
+}
+
+@keyframes hcat-flip {
+  0%      { transform: scaleX(1); }
+  /* ease-in phase of flip (40ms ≈ 0.25% of 16160ms) */
+  49.5%   { transform: scaleX(1);  animation-timing-function: cubic-bezier(0.42, 0, 1, 1); }
+  49.75%  { transform: scaleX(0);  animation-timing-function: cubic-bezier(0, 0, 0.58, 1); }
+  50%     { transform: scaleX(-1); }
+  /* second flip back */
+  99.5%   { transform: scaleX(-1); animation-timing-function: cubic-bezier(0.42, 0, 1, 1); }
+  99.75%  { transform: scaleX(0);  animation-timing-function: cubic-bezier(0, 0, 0.58, 1); }
+  100%    { transform: scaleX(1); }
+}
+
+/* Freeze cat whenever any modal is open */
+.header-cat-outer.cat-frozen,
+.header-cat-outer.cat-frozen .header-cat-flip,
+.header-cat-outer.cat-frozen .header-cat-img {
+  animation-play-state: paused;
+}
+
+.header-cat-img {
+  width: 51px;
+  height: 40px;
+  display: block;
+  image-rendering: pixelated;
+  transform-origin: bottom center;
+  animation: hcat-step 0.25s linear infinite;
+}
+
+/* 500ms walk cycle from Figma motionScaleY + motionTranslationY keyframes:
+   0ms=land(Y=0,scaleY=0.9) → 50ms=spring(0,1.12) → 190ms=air(-6px,1.08) → 500ms=land(0,0.88) */
+@keyframes hcat-step {
+  0%   { transform: translateY(0px)  scaleY(0.95); animation-timing-function: ease-in-out; }
+  10%  { transform: translateY(0px)  scaleY(1.06); animation-timing-function: ease-in-out; }
+  38%  { transform: translateY(-3px) scaleY(1.03); animation-timing-function: ease-in-out; }
+  100% { transform: translateY(0px)  scaleY(0.95); }
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+/* ── Modal window ── */
+.modal-window {
+  position: relative;
+  width: min(664px, calc(100vw - 32px));
+  background: #f2f1e3;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 6px;
+  box-shadow: 0 36px 80px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+/* Title bar */
+.modal-titlebar {
+  position: relative;
+  height: 40px;
+  background: #1364b5;
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  box-shadow: inset 0 12px 20px rgba(255,255,255,0.35);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.modal-titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+  min-width: 0;
+  max-width: calc(100% - 112px);
+}
+.modal-title-icon {
+  position: relative;
+  width: 20px; height: 20px;
+  overflow: hidden; flex-shrink: 0;
+}
+.modal-title-icon img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.modal-title-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 14px; line-height: 16px;
+  color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  min-width: 0;
+}
+.modal-titlebar-controls {
+  position: absolute; right: 8px; top: 8px;
+  display: flex; gap: 8px; align-items: center;
+}
+.modal-btn {
+  width: 24px; height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.5);
+  overflow: hidden; cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; background: none;
+}
+.modal-btn-minimize,
+.modal-btn-maximize {
+  background: #1666b6; cursor: default; pointer-events: none;
+  /* Non-functional — shown dimmed so they read as disabled */
+  opacity: 0.4; border-color: rgba(255,255,255,0.3);
+}
+.modal-btn-close    { background: #d54629; padding: 0; }
+.modal-btn-minimize::after {
+  content: ''; display: block;
+  width: 8px; height: 3px;
+  background: white; border-radius: 1px 1px 0 0; margin-top: 6px;
+}
+
+/* Modal body */
+.modal-body { padding: 38px 38px 32px; }
+.modal-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 20px; line-height: 32px;
+  letter-spacing: -0.4px; color: #262b37; margin-bottom: 8px;
+}
+.modal-subtext {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400; font-size: 14px; line-height: 24px;
+  color: #262b37; margin-bottom: 28px;
+}
+.modal-fields-row { display: flex; gap: 24px; margin-bottom: 24px; }
+.modal-field { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.modal-field-full { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.field-label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600; font-size: 14px; line-height: 24px; color: #0b2052;
+}
+.field-input {
+  background: #faf9f1;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 4px; padding: 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400; font-size: 14px; line-height: 24px; color: #262b37;
+  outline: none; width: 100%;
+}
+.field-input::placeholder { opacity: 0.4; color: #262b37; }
+.field-input:focus { border-color: #1364b5; }
+.field-textarea { resize: none; height: 112px; }
+.modal-footer { display: flex; justify-content: flex-end; }
+.btn-send {
+  background: #b97816; border-radius: 8px;
+  padding-bottom: 2px; cursor: url('assets/cursor-pointer.svg') 11 1, pointer; border: none;
+}
+.btn-send-inner {
+  display: flex; align-items: center; gap: 8px;
+  height: 34px; padding: 8px 16px;
+  background: #eda840; border: 1px solid #b97816; border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 14px; line-height: 16px;
+  color: #262b37; cursor: url('assets/cursor-pointer.svg') 11 1, pointer; white-space: nowrap;
+}
+.btn-send-inner:hover { background: #f5b84a; }
+.btn-send-icon { width: 16px; height: 16px; overflow: hidden; position: relative; flex-shrink: 0; }
+.btn-send-icon img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ── About modal ── */
+.about-window {
+  position: relative;
+  width: min(896px, calc(100vw - 32px));
+  background: #f2f1e3;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 6px;
+  box-shadow: 0 36px 80px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+.about-title-icon {
+  overflow: hidden;
+  position: relative;
+}
+.about-body {
+  padding: 40px clamp(20px, 12.7%, 114px);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: #262b37;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px);
+}
+.about-meta {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 0;
+}
+.about-avatar {
+  width: 144px;
+  height: 144px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.2);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.about-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.about-name-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.about-name-role {
+  display: flex;
+  flex-direction: column;
+}
+.about-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+  color: #262b37;
+}
+.about-role {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1364b5;
+}
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.about-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 3px 8px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.3);
+  color: #262b37;
+  background: #eaeef7;
+  white-space: nowrap;
+}
+.about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.about-key {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  color: #262b37;
+  font-size: 14px;
+  line-height: 24px;
+}
+.about-value {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  color: #262b37;
+  font-size: 14px;
+  line-height: 24px;
+}
+.about-value p { margin: 0; }
+.about-value p + p { margin-top: 8px; }
+.about-divider {
+  border: none;
+  border-top: 1px dashed rgba(0,0,0,0.2);
+  margin: 20px 0;
+}
+.about-list {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #262b37;
+  list-style: disc;
+  padding-left: 21px;
+}
+.about-list li + li { margin-top: 8px; }
+.about-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.about-skill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 3px 8px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.3);
+  color: #262b37;
+  background: #faf9f1;
+  white-space: nowrap;
+}
+/* legacy - unused */
+.about-cursor {
+  display: none;
+  width: 8px; height: 14px;
+  background: #262b37;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── Projects window ── */
+.projects-window {
+  position: relative;
+  width: min(1130px, calc(100vw - 32px));
+  height: min(600px, calc(100vh - 32px));
+  height: min(600px, calc(100dvh - 32px));
+  background: #f2f1e3;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 6px;
+  box-shadow: 0 36px 80px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.projects-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.projects-grid-area {
+  flex: 1;
+  padding: 38px;
+  overflow-y: auto;
+}
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  align-content: flex-start;
+}
+.proj-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 132px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  text-decoration: none;
+}
+.proj-item:hover { opacity: 0.85; }
+.proj-item[hidden] { display: none; }
+.proj-item.coming-soon { opacity: 0.45; }
+.proj-item.coming-soon:hover { opacity: 0.6; }
+.proj-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #0b2052;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.projects-sidebar {
+  width: 322px;
+  flex-shrink: 0;
+  background: #eae9da;
+  border-left: 1px solid rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.projects-sidebar-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: -0.4px;
+  color: #0b2052;
+  text-align: center;
+}
+.projects-sidebar-desc {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  color: #262b37;
+  text-align: center;
+}
+/* ── Project icon ── */
+.ic-proj { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+.ic-proj-screen { position: absolute; left: 7px; top: 7px; width: 34px; height: 24px; border: 2px solid; }
+.ic-proj-bar { position: absolute; left: 4px; width: 40px; height: 4px; border: 2px solid; border-radius: 1px; }
+.ic-proj-bar-top  { top: 3.53px; }
+.ic-proj-bar-bot  { top: 30.53px; }
+.ic-proj-stand { position: absolute; left: 12px; top: 34.53px; width: 24.5px; height: 9.526px; }
+.ic-proj-stand img { width: 100%; height: 100%; display: block; }
+.ic-proj-icon { position: absolute; left: 16px; top: 11px; width: 16px; height: 16px; }
+.ic-proj-icon img { width: 100%; height: 100%; display: block; }
+.ic-proj-presentation .ic-proj-screen { background: #f3e8f0; border-color: #590946; }
+.ic-proj-presentation .ic-proj-bar    { background: #da49b8; border-color: #590946; }
+.ic-proj-data .ic-proj-screen         { background: #e9ddff; border-color: #1a0056; }
+.ic-proj-data .ic-proj-bar            { background: #ad73ff; border-color: #1a0056; }
+.ic-proj-app .ic-proj-screen          { background: #ffe5bb; border-color: #3a2504; }
+.ic-proj-app .ic-proj-bar             { background: #f4b855; border-color: #3a2504; }
+.ic-proj-web .ic-proj-screen          { background: #cef1d5; border-color: #002a09; }
+.ic-proj-web .ic-proj-bar             { background: #3c9c50; border-color: #002a09; }
+/* ── Project item selected state ── */
+.proj-item.selected .proj-label {
+  background: #0b2052;
+  color: white;
+  display: block;
+  width: 100%;
+  padding: 0 4px;
+}
+/* ── Project detail sidebar ── */
+.projects-sidebar-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px;
+  gap: 24px;
+  width: 100%;
+}
+.projects-detail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.proj-detail-content {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 274px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+.proj-detail-img {
+  width: 169px;
+  height: 132px;
+  border-radius: 4px;
+  border: 1px solid rgba(11,32,82,0.3);
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}
+.proj-detail-img-placeholder {
+  width: 169px;
+  height: 132px;
+  border-radius: 4px;
+  border: 1px solid rgba(11,32,82,0.3);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaeef7;
+}
+.proj-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.proj-detail-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  width: 100%;
+}
+.proj-detail-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #0b2052;
+}
+.proj-detail-desc {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  color: #262b37;
+}
+.proj-detail-meta { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.proj-detail-row { display: flex; align-items: flex-start; font-size: 16px; line-height: 28px; color: #262b37; }
+.proj-detail-row-label { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; width: 80px; flex-shrink: 0; }
+.proj-detail-row-value { font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; flex: 1; }
+.btn-case-study {
+  position: absolute;
+  top: 484px;
+  right: 24px;
+  width: 274px;
+  background: #b97816;
+  border-radius: 8px;
+  padding-bottom: 2px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  border: none;
+}
+.btn-case-study-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 34px;
+  padding: 8px 16px;
+  background: #eda840;
+  border: 1px solid #b97816;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #262b37;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  white-space: nowrap;
+  width: 100%;
+}
+.btn-case-study-inner:hover { background: #f5b84a; }
+.btn-case-study-arrow { width: 16px; height: 16px; overflow: hidden; position: relative; flex-shrink: 0; }
+.btn-case-study-arrow img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.btn-case-study.is-disabled {
+  filter: grayscale(1);
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Mobile-only direct links (View in Figma / Interactive prototype), replacing
+   the "Review case study" preview button — hidden on desktop/tablet */
+.proj-detail-mobile-actions { display: none; }
+.proj-detail-mobile-coming-soon { display: none; }
+.force-hidden { display: none !important; }
+.btn-project-link {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  padding-bottom: 2px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  text-decoration: none;
+}
+.btn-project-link-inner {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.btn-project-figma { background: #b97816; }
+.btn-project-figma .btn-project-link-inner { background: #eda840; border: 1px solid #b97816; color: #262b37; }
+.btn-project-figma:hover .btn-project-link-inner { background: #f5b84a; }
+.btn-project-prototype { background: #4f402e; }
+.btn-project-prototype .btn-project-link-inner { background: #f2f1e3; border: 1px solid #4f402e; color: #4f402e; }
+.btn-project-prototype:hover .btn-project-link-inner { background: #faf9f1; }
+.btn-project-link-icon { width: 16px; height: 16px; flex-shrink: 0; }
+.btn-project-link.is-disabled {
+  filter: grayscale(1);
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: default;
+}
+/* ── Folder icon 20px (titlebar) ── */
+.ic-folder-sm { position: relative; width: 20px; height: 20px; flex-shrink: 0; overflow: hidden; }
+.ic-folder-sm-union { position: absolute; top: 8.06%; right: 16.13%; bottom: 8.06%; left: 0; }
+.ic-folder-sm-union img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ic-folder-sm-body { position: absolute; top: 29.03%; right: 0; bottom: 8.06%; left: 0; }
+.ic-folder-sm-body img { position: absolute; inset: 0 2.35% 0 0.94%; width: calc(100% - 3.29%); height: 100%; }
+
+/* ── Case Study window ── */
+.casestudy-window {
+  position: relative;
+  width: min(1360px, calc(100vw - 80px));
+  height: min(758px, calc(100vh - 80px));
+  height: min(758px, calc(100dvh - 80px));
+  background: #f2f1e3;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 6px;
+  box-shadow: 0 36px 80px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title bar icon (20×20 web/presentation icon) */
+.casestudy-title-icon {
+  position: relative;
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+}
+.csic-bar-top {
+  position: absolute;
+  top: 1.47px; left: 1.67px;
+  width: 16.667px; height: 1.667px;
+  background: #3c9c50;
+  border: 0.833px solid #002a09;
+  border-radius: 1px;
+}
+.csic-screen {
+  position: absolute;
+  top: 2.92px; left: 2.92px;
+  width: 14.167px; height: 10px;
+  background: #cef1d5;
+  border: 0.833px solid #002a09;
+}
+.csic-globe {
+  position: absolute;
+  top: 4.58px; left: 6.67px;
+  width: 6.667px; height: 6.667px;
+}
+.csic-globe img { width: 100%; height: 100%; display: block; }
+.csic-bar-bot {
+  position: absolute;
+  top: 12.72px; left: 1.67px;
+  width: 16.667px; height: 1.667px;
+  background: #3c9c50;
+  border: 0.833px solid #002a09;
+  border-radius: 1px;
+}
+.csic-stand {
+  position: absolute;
+  top: 14.39px; left: 5px;
+  width: 10.208px; height: 3.969px;
+}
+.csic-stand img { width: 100%; height: 100%; display: block; }
+
+/* Body layout */
+.casestudy-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left slides sidebar */
+.casestudy-slides {
+  width: 207px;
+  flex-shrink: 0;
+  background: #eae9da;
+  border-right: 1px solid rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease, opacity 0.15s ease;
+}
+.casestudy-slides.collapsed {
+  width: 0;
+  opacity: 0;
+  border-right: none;
+}
+.casestudy-slides-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  color: #0b2052;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  padding: 24px 16px 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.casestudy-slides-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Slide thumbnails */
+.casestudy-thumb {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  flex-shrink: 0;
+}
+.casestudy-thumb:hover { opacity: 0.85; }
+.casestudy-thumb-img {
+  width: 100%;
+  aspect-ratio: 7 / 4;
+  object-fit: cover;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 5px;
+  display: block;
+}
+.casestudy-thumb.active .casestudy-thumb-img {
+  border: 2px solid #0b2052;
+}
+.casestudy-thumb-label-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.casestudy-thumb.active .casestudy-thumb-label-wrap {
+  background: #0b2052;
+}
+.casestudy-thumb-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #0b2052;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+.casestudy-thumb.active .casestudy-thumb-label {
+  color: white;
+  text-shadow: none;
+}
+
+/* Main area */
+.casestudy-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Toolbar */
+.casestudy-toolbar {
+  height: 68px;
+  flex-shrink: 0;
+  background: #f2f1e3;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+}
+.casestudy-toolbar-spacer { flex: 1; }
+
+/* Toggle button */
+.casestudy-toggle-wrap {
+  background: #4f402e;
+  border-radius: 8px;
+  padding-bottom: 2px;
+  flex-shrink: 0;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+}
+.casestudy-toggle-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: #f2f1e3;
+  border: 1px solid #4f402e;
+  border-radius: 8px;
+}
+.casestudy-toggle-wrap:hover .casestudy-toggle-inner { background: #faf9f1; }
+.casestudy-toggle-inner img { width: 16px; height: 16px; display: block; }
+
+/* Outline button (Interactive prototype) */
+.casestudy-btn-outline-wrap {
+  background: #4f402e;
+  border-radius: 8px;
+  padding-bottom: 2px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+.casestudy-btn-outline-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 8px 16px;
+  background: #f2f1e3;
+  border: 1px solid #4f402e;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4f402e;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  white-space: nowrap;
+}
+.casestudy-btn-outline-wrap:hover .casestudy-btn-outline-inner { background: #faf9f1; }
+
+/* Primary button (View in Figma) */
+.casestudy-btn-primary-wrap {
+  background: #b97816;
+  border-radius: 8px;
+  padding-bottom: 2px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+.casestudy-btn-primary-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 8px 16px;
+  background: #eda840;
+  border: 1px solid #b97816;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #262b37;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  white-space: nowrap;
+}
+.casestudy-btn-primary-wrap:hover .casestudy-btn-primary-inner { background: #f5b84a; }
+
+.csic-btn-icon {
+  width: 16px; height: 16px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.csic-btn-icon img { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Slide view — continuous scrollable filmstrip, images flow edge-to-edge */
+.casestudy-slide-view {
+  flex: 1;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+.casestudy-slide-item {
+  flex-shrink: 0;
+  display: block;
+}
+.casestudy-slide-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Bin window ── */
+.bin-window {
+  position: relative;
+  width: min(1130px, calc(100vw - 32px));
+  height: min(728px, calc(100vh - 64px));
+  height: min(728px, calc(100dvh - 64px));
+  background: #f2f1e3;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 6px;
+  box-shadow: 0 36px 80px 16px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.bin-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.bin-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.bin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+.bin-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+  user-select: none;
+}
+.bin-chevron { width: 24px; height: 24px; flex-shrink: 0; display: block; }
+.bin-section.collapsed .bin-items { display: none; }
+.bin-section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 14px; line-height: 16px;
+  color: #0b2052; text-shadow: 0 1px 1px rgba(0,0,0,0.1); white-space: nowrap;
+}
+.bin-divider { flex: 1; height: 1px; background: rgba(11,32,82,0.2); }
+
+.bin-items { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.bin-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px; width: 104px;
+  cursor: url('assets/cursor-pointer.svg') 11 1, pointer;
+}
+.bin-item-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500; font-size: 12px; line-height: 16px;
+  color: #0b2052; text-align: center; text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  padding: 0 2px; border-radius: 2px;
+}
+.bin-item.selected .bin-item-label {
+  background: #0b2052; color: #fff; text-shadow: none;
+}
+
+/* Photo placeholder icon */
+.ic-bin-photo {
+  position: relative; width: 48px; height: 48px; flex-shrink: 0;
+  background: #c4d1ed;
+  border: 1.8px solid #0b2052;
+  border-radius: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ic-bin-photo-glyph { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ic-bin-photo-dot { position: absolute; left: 29px; top: 7px; width: 12px; height: 12px; }
+
+/* Strava icon */
+.ic-bin-strava {
+  position: relative; width: 48px; height: 48px; flex-shrink: 0;
+  border-radius: 5px; border: 1.8px solid #0b2052;
+  background: linear-gradient(180deg, #ff8001 0%, #fc4c02 100%);
+  overflow: hidden;
+}
+.ic-bin-strava-v1 { position: absolute; left: 12px; top: 7px; width: 19px; height: 20px; }
+.ic-bin-strava-v2 { position: absolute; left: 20px; top: 27px; width: 15px; height: 15px; transform: scaleY(-1); }
+
+/* Discogs icon */
+.ic-bin-discogs { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+.ic-bin-discogs-e1 { position: absolute; left: 1px; top: 1px; width: 34.2px; height: 38.96px; }
+.ic-bin-discogs-e2 { position: absolute; left: 13.58px; top: 7.41px; width: 33.42px; height: 39.59px; }
+.ic-bin-discogs-e3 { position: absolute; left: 21px; top: 21px; width: 6px; height: 6px; }
+
+/* Rewish (wishlist) icon */
+.ic-bin-rewish {
+  position: relative; width: 46px; height: 46px; flex-shrink: 0;
+  background: #ba40ff; border: 2px solid #0b2052; border-radius: 5px;
+}
+.ic-bin-rewish-icon { position: absolute; left: 19.57%; top: 19.57%; width: 60.86%; height: 60.86%; display: block; }
+
+/* Sidebar */
+.bin-sidebar {
+  width: 322px; flex-shrink: 0;
+  background: #eae9da;
+  border-left: 1px solid rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 24px;
+  overflow-y: auto;
+}
+.bin-sidebar-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+.bin-sidebar-icon {}
+.bin-sidebar-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 20px; line-height: 32px;
+  letter-spacing: -0.4px; color: #0b2052; text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.bin-sidebar-desc {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400; font-size: 14px; line-height: 24px;
+  color: #262b37; text-align: center;
+}
+
+/* Selected item preview state */
+.bin-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  flex: 1;
+}
+.bin-detail-image {
+  width: 100%;
+  height: 240px;
+  flex-shrink: 0;
+  border: 1px solid rgba(11,32,82,0.3);
+  border-radius: 4px;
+  background: #faf9f1;
+  overflow: hidden;
+}
+.bin-detail-image img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.bin-detail-image-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.bin-detail-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: center;
+}
+.bin-detail-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600; font-size: 20px; line-height: 32px;
+  letter-spacing: -0.4px; color: #0b2052; text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  width: 100%;
+}
+.bin-detail-caption {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400; font-size: 14px; line-height: 24px;
+  color: #262b37; text-align: center;
+  width: 100%;
+}
+.bin-detail-caption:empty { display: none; }
+.bin-detail-download { display: block; width: 100%; margin-top: auto; text-decoration: none; }
+.bin-detail-download .btn-send-inner { width: 100%; justify-content: center; }
+
+.bin-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  flex: 1;
+}
+.bin-link-icon { flex-shrink: 0; }
+
+/* ── Mobile: two-pane modals (Projects, Bin) collapse to a single scrollable column.
+   The folder-info/detail pane moves ABOVE the list (order: -1) instead of below it —
+   matches the Figma mobile pattern where the info panel always leads ── */
+@media (max-width: 860px) {
+  .projects-content,
+  .bin-content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .projects-grid-area,
+  .bin-main {
+    flex: none;
+    overflow-y: visible;
+  }
+  .projects-sidebar,
+  .bin-sidebar {
+    order: -1;
+    width: 100%;
+    flex-shrink: 0;
+    border-left: none;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+  .projects-detail { height: auto; overflow: visible; }
+  .proj-detail-content { position: static; transform: none; margin: 40px auto 0; }
+  .btn-case-study { position: static; margin: 24px auto 40px; }
+
+  /* Compact icon grid: Figma's mobile pattern uses a tighter multi-column
+     grid instead of the desktop's wide single-file list ── */
+  .projects-grid { gap: 12px; }
+  .proj-item { width: 98px; }
+  .bin-item { width: 96px; }
+}
+
+/* ── Mobile: case study slide panel becomes a slide-over drawer instead of
+   squeezing the main slide view, toolbar wraps instead of overflowing ── */
+@media (max-width: 700px) {
+  .casestudy-body { position: relative; }
+  .casestudy-slides {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    z-index: 5;
+    box-shadow: 4px 0 16px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, opacity 0.15s ease;
+  }
+  .casestudy-slides.collapsed {
+    width: 207px;
+    opacity: 1;
+    border-right: 1px solid rgba(0,0,0,0.3);
+    transform: translateX(-100%);
+  }
+  .casestudy-toolbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px 12px;
+  }
+  .casestudy-toolbar-spacer { flex: none; width: 100%; height: 0; order: 1; }
+  .casestudy-btn-outline-wrap { order: 2; }
+  .casestudy-btn-primary-wrap { order: 3; }
+}
+
+/* ── Mobile: About modal header — Figma mobile-about keeps the row layout
+   (avatar left, name/role/badges right) but shrinks the avatar and switches
+   the role label to the compact mono caption style ── */
+@media (max-width: 600px) {
+  .about-body { padding: 16px; }
+  .about-meta { gap: 16px; }
+  .about-avatar { width: 112px; height: 112px; }
+  .about-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .about-badge { padding: 1px 5px; }
+  .about-divider { border-top-color: rgba(0,0,0,0.3); }
+}
+
+/* ── Phones: tighten global chrome, hide purely decorative elements,
+   reduce padding so content isn't cramped against the viewport edge ── */
+@media (max-width: 700px) {
+  /* Modals anchor 108px below the header (the same clearance the sidebar
+     uses) instead of being vertically centered — matches Figma's mobile
+     modals. Applies to every modal (Contact, About, Projects, Bin) since
+     they all share .modal-overlay ── */
+  .modal-overlay {
+    align-items: flex-start;
+    padding: 96px 0 16px;
+    overflow-y: auto;
+  }
+
+  .modal-fields-row { flex-direction: column; }
+  .modal-body { padding: 24px 20px 24px; overflow-y: auto; max-height: calc(100dvh - 152px); }
+  .about-body { max-height: calc(100dvh - 152px); }
+  .bin-window { height: calc(100dvh - 112px); }
+
+  /* Header: 88px bar from Figma "mobile-home" (node 4181:42637) — name and
+     role stacked left, clock right, 1px divider at y=79 with the cat
+     walking along it. */
+  .header {
+    position: fixed;
+    display: block;
+    height: 88px;
+    padding: 0;
+  }
+  /* No divider on mobile. Cat row: 32px tall (80% of desktop's 51x40), flush
+     with the bottom edge of the header, with an 8px gap between the two
+     text lines above and the cat (text 16-48, gap 8, cat 56-88). */
+  .header-cat-outer { top: auto; bottom: 0; width: 41px; }
+  .header-cat-flip,
+  .header-cat-img { width: 41px; height: 32px; }
+  .header-text {
+    position: absolute;
+    left: 16px; top: 16px;
+    width: auto;
+    margin: 0;
+    text-align: left;
+    white-space: normal;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .header-text .semibold,
+  .header-text .regular { display: block; }
+  .header-sep { display: none; }
+  .header-clock {
+    position: absolute;
+    right: 16px; top: 24px;
+    width: auto;
+    text-align: right;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  /* Game area: every size/position below is pulled directly from the
+     Figma mobile-home frame (node 4181:42637, 390x844) rather than scaled
+     down from the desktop layout — that scaling (a vh-driven --tile clamp,
+     decor positioned as tile-ratios) was the actual root cause of the
+     oversized/overlapping elements, not just a tuning issue.
+     --tile becomes the GROUND grid unit (56px, flat — matches the Figma
+     ground tile exactly, no clamp/vh formula). Mario/goomba/koopa render
+     at that same 56px via the base rule's width/height:var(--tile) — no
+     mobile override needed, on purpose: an earlier pass here sized them at
+     Figma's literal 84px (bigger than the 56px ground tile, like classic
+     Mario proportions), but that's been reverted per explicit direction —
+     everything is one uniform 56px size now, no exceptions. */
+  .game-area { --tile: 64px; }
+
+  /* Ground is 3 stacked 56px rows (168px total) on mobile, not the 1-row
+     strip desktop uses — repeat in both axes instead of just repeat-x so
+     the same square tile fills 3 rows. */
+  .game-ground {
+    height: 88px;
+    background: url('assets/block-normal.png') 0 0 / 88px 88px repeat-x;
+  }
+  .game-mario { bottom: 88px; }
+
+  /* Obstacles are the one gameplay element whose vertical position ISN'T
+     set by JS — they only get .style.left at spawn time (main.js), so this
+     static bottom has to match the real 3-row ground height, or they'd
+     render sunk into it. Width/height stay on the base var(--tile) rule
+     (56px), matching Mario. */
+  .game-obstacle { bottom: 88px; }
+
+  /* Mobile's idle scene shows a deliberately sparser set than desktop —
+     1 cloud (not 2), no mountain, 1 floating question block (not 2), no
+     brick+question row. Hide the rest instead of cramming all of desktop's
+     decoration into a 390px-wide screen, which was the other half of the
+     overlap problem. */
+  .game-mountain, .game-cloud-b, .game-block-row, .game-block-float-high { display: none; }
+
+  .game-cloud-a { top: 150px; left: auto; right: 58px; width: 100px; height: 71px; }
+  .game-grasses { left: auto; right: 0; bottom: 88px; width: 190px; height: 40px; }
+  .game-goomba-deco { left: auto; right: 94px; bottom: 88px; }
+  .game-block-float { left: auto; right: 0; bottom: 163px; width: 60px; height: 60px; }
+  .game-platform { width: 60px; height: 60px; }
+
+  /* Header is hidden during a run, so score + X sit at the top of the screen */
+  .game-hud { top: 18px; }
+  .game-close-btn { top: 12px; right: 12px; }
+
+  /* Idle/game-over prompt: exact position pulled from Figma's Frame 64
+     (node 4181:59859) — top:316px, not vertically centered like desktop,
+     32px gap between heading and button (both measured from the design,
+     not assumed to equal the desktop's 20px gap). */
+  .game-overlay {
+    justify-content: flex-start;
+    padding-top: 321px;
+    gap: 24px;
+  }
+  .game-idle-heading {
+    font-size: 48px;
+    line-height: 48px;
+    text-shadow: 2px 2px 0 #0b2052;
+  }
+  .game-btn-inner {
+    height: 42px;
+    padding: 8px 24px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  /* Icon grid reflows into a wrapping 3-across row (matches Figma's mobile
+     home — same "Desktop_Icons" grid, just wrapped for a narrow viewport)
+     instead of the desktop's fixed single column ── */
+  .sidebar {
+    /* relative (not static) so z-index still applies — otherwise the
+       always-on fixed game layer (z-index:1) paints over these icons,
+       since z-index has no effect on statically positioned elements ── */
+    position: relative;
+    left: auto; top: auto;
+    width: auto;
+    max-width: 390px; /* stays 3-across (as in the design) on wider phones/tablets */
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 24px;
+    margin-top: 88px; /* butts directly against the 88px header */
+  }
+  .game-hint { display: none; } /* mockup has no tap/space hint; tapping still works */
+  .icon-item, .sidebar .trash-icon { width: 98px; }
+  .sidebar .trash-icon { position: relative; top: auto; right: auto; left: auto; }
+
+  /* "Send a message" shortens to "Send message" at this width */
+  .icon-label .label-word { display: none; }
+
+  .bin-main, .projects-grid-area { padding: 16px; }
+  .bin-sidebar { padding: 12px 16px; }
+  .projects-sidebar-default { padding: 24px 20px; }
+
+  /* Full-width primary CTA — thumb-friendly button pattern from the Figma
+     mobile forms (contact form, project/bin detail) instead of a right-hugging button */
+  .modal-footer { justify-content: stretch; }
+  .btn-send { width: 100%; }
+  .btn-send-inner { width: 100%; justify-content: center; }
+
+  /* Projects window: near-fullscreen sized to clear the header exactly,
+     matching Figma's mobile-projects frame (374×720 at 390×844) ── */
+  .projects-window {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 112px);
+  }
+
+  /* Grid gap matches Figma now that the window is full-width; item width
+     trimmed 2px below spec (98→96, same as the Bin grid) so 3-per-row
+     survives sub-pixel rounding on the exact-fit width instead of wrapping
+     to 2 columns */
+  .projects-grid { gap: 24px; }
+  .proj-item { width: 96px; }
+
+  /* Folder_Info collapses from the centered empty-state card into a compact
+     horizontal bar: small icon + left-aligned title/description — same
+     pattern applied to both Projects and Bin default panels ── */
+  .projects-sidebar-default,
+  .bin-sidebar-default {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  /* projects-sidebar has no padding of its own, so its -default panel
+     carries it; bin-sidebar already carries 12px 16px on the outer
+     container (shared with the detail/link states), so bin-sidebar-default
+     stays padding-free to avoid doubling up ── */
+  .projects-sidebar-default { padding: 12px 16px; }
+  .projects-sidebar-default .ic,
+  .bin-sidebar-default .ic { width: 40px; height: 40px; flex-shrink: 0; }
+  .projects-sidebar-text,
+  .bin-sidebar-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+  .projects-sidebar-default .projects-sidebar-title {
+    font-size: 14px;
+    line-height: 16px;
+    text-align: left;
+  }
+  .projects-sidebar-default .projects-sidebar-desc {
+    font-size: 11px;
+    line-height: normal;
+    text-align: left;
+  }
+  .bin-sidebar-default .bin-sidebar-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    text-align: left;
+  }
+  .bin-sidebar-default .bin-sidebar-desc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+  }
+
+  /* Project detail: full-width thumbnail, larger centered title, metadata
+     as a bordered card, and direct Figma/Prototype links instead of the
+     desktop's fixed-width card + "Review case study" preview button ── */
+  .proj-detail-content {
+    position: static;
+    transform: none;
+    width: 100%;
+    gap: 20px;
+    margin: 0;
+  }
+  .proj-detail-img, .proj-detail-img-placeholder { width: 100%; height: 200px; }
+  .proj-detail-info { gap: 20px; }
+  .proj-detail-title-block { gap: 12px; }
+  .proj-detail-title { font-size: 20px; line-height: 32px; }
+  .proj-detail-desc { font-size: 14px; line-height: 24px; }
+  .proj-detail-meta {
+    gap: 10px;
+    padding: 12px;
+    background: #eae9da;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 6px;
+  }
+  .proj-detail-row { font-size: 12px; line-height: normal; }
+  .proj-detail-row-label { width: 60px; }
+
+  .btn-case-study { display: none; }
+  .proj-detail-mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .proj-detail-mobile-coming-soon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    margin-top: 24px;
+    border-radius: 8px;
+    background: #f2f1e3;
+    border: 1px solid #4f402e;
+    color: #4f402e;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+
+  /* Selecting a project opens what reads as its own window: the grid and
+     folder-info card disappear entirely and the detail view takes over the
+     full modal (title bar swaps to the project's name+icon via JS) instead
+     of staying visible as an inline panel alongside the list ── */
+  .projects-window.detail-open .projects-grid-area,
+  .projects-window.detail-open .projects-sidebar-default {
+    display: none;
+  }
+  .projects-window.detail-open .projects-content {
+    overflow: hidden;
+  }
+  .projects-window.detail-open .projects-sidebar {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    border-bottom: none;
+  }
+  /* Content fills the full window height; buttons pin to the bottom instead
+     of trailing right after the metadata card ── */
+  .projects-window.detail-open .projects-detail {
+    display: flex !important; /* overrides the inline style="display:block" the JS toggles */
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    height: 100%;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  /* Selecting a bin item opens what reads as its own window: the section
+     list and folder-info card disappear entirely and the detail/link view
+     takes over the full modal (title bar swaps to the item's name+icon via
+     JS) — same pattern as the Projects window above ── */
+  .bin-window.detail-open .bin-main,
+  .bin-window.detail-open .bin-sidebar-default {
+    display: none;
+  }
+  .bin-window.detail-open .bin-content {
+    overflow: hidden;
+  }
+  .bin-window.detail-open .bin-sidebar {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    border-bottom: none;
+  }
+  .bin-window.detail-open .bin-detail,
+  .bin-window.detail-open .bin-link {
+    height: 100%;
+    padding: 16px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+}

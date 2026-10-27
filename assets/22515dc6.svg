@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 48 42.1818" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mask group">
+<mask id="mask0_0_235" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="43">
+<path id="Rectangle 14" d="M22.0391 2.24999C23.2566 1.56521 24.7434 1.56521 25.9609 2.24999L44.9609 12.9365C46.2204 13.645 47 14.9777 47 16.4228V37.1816C47 39.3908 45.2091 41.1816 43 41.1816H5C2.79086 41.1816 1 39.3908 1 37.1816V16.4228C1 14.9777 1.77957 13.645 3.03906 12.9365L22.0391 2.24999Z" fill="var(--fill-0, #E78632)" stroke="var(--stroke-0, #0B2052)" stroke-width="2"/>
+</mask>
+<g mask="url(#mask0_0_235)">
+<g id="Group 2">
+<rect id="Rectangle 11" x="9.20891" y="-1.18184" width="30.582" height="38.7275" rx="3" fill="var(--fill-0, #EAEEF7)" stroke="var(--stroke-0, #0B2052)" stroke-width="2"/>
+<path id="Vector 17" d="M13.0908 3.99991H35.6363" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round"/>
+<path id="Vector 18" d="M13.0908 9.09093H31.2727" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round"/>
+<path id="Vector 19" d="M13.0908 14.1819H35.6363" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round"/>
+<path id="Vector 20" d="M13.0908 19.2729H18.1817" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round"/>
+</g>
+<path id="Vector 23" d="M-5.5459 46.9681L-5.5459 14.1224L22.0449 30.5453L-5.5459 46.9681Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 24" d="M54.2732 46.9681L54.2732 14.1224L26.6824 30.5453L54.2732 46.9681Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 22" d="M22.0722 25.3677C23.4485 24.4057 25.2789 24.4056 26.6552 25.3677L48.2304 40.4488C51.4365 42.6902 49.8504 47.727 45.9384 47.7271H2.78897C-1.12314 47.7271 -2.70927 42.6902 0.496983 40.4488L22.0722 25.3677Z" fill="var(--fill-0, #EDA840)" stroke="var(--stroke-0, #0B2052)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>
