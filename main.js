@@ -273,6 +273,7 @@ document.querySelectorAll('.proj-item').forEach(item => {
     // consistent layout — ones without a link yet just render disabled
     // instead of disappearing.
     const study = caseStudies[item.dataset.title];
+    projSidebarDetail.classList.toggle('has-article', !!(study && study.article));
     setProjectLinkBtn(projDetailFigmaBtn,     study && study.figmaUrl);
     setProjectLinkBtn(projDetailPrototypeBtn, study && study.prototypeUrl);
 
@@ -318,6 +319,7 @@ function resetProjSelection() {
   document.querySelectorAll('.proj-item').forEach(i => i.classList.remove('selected'));
   projSidebarDefault.style.display = '';
   projSidebarDetail.style.display  = 'none';
+  projSidebarDetail.classList.remove('has-article');
   projectsWindowEl.classList.remove('detail-open');
   projectsTitleText.textContent = 'Projects';
   projectsTitleIcon.innerHTML = projectsTitleIconDefaultHTML;
@@ -427,6 +429,9 @@ const controllaSlides = [
 // Per-project case study content: slides shown in the modal, plus the
 // external links the toolbar buttons should open (when available).
 const caseStudies = {
+  'Primary inbox for accountant': {
+    article: true,
+  },
   'Sowise | Contract management tool': {
     slides: sowiseSlides,
     figmaUrl: 'https://www.figma.com/proto/t263lJqFQywKvyj5vYEnij/Case-Study?node-id=7-78&p=f&viewport=902%2C230%2C0.02&t=uXUpXc1fsvhp3IZ2-1&scaling=scale-down-width&content-scaling=fixed&page-id=7%3A77',
@@ -515,6 +520,10 @@ document.querySelector('.btn-case-study').addEventListener('click', () => {
 
   const title = projDetailTitle.textContent || 'Case Study';
   const study = caseStudies[title];
+  if (study && study.article) {
+    openInboxStudy();
+    return;
+  }
 
   csTitle.textContent = title;
   // On narrow screens the slides panel is an overlay drawer, so start collapsed
@@ -547,6 +556,61 @@ csToggle.addEventListener('click', () => {
   const collapsed = csSidebar.classList.toggle('collapsed');
   csToggleIcon.src = collapsed ? 'assets/cs-panel-open.svg' : 'assets/cs-panel.svg';
 });
+
+const inboxModal = document.getElementById('inboxModal');
+const inboxNav = document.getElementById('inboxNav');
+const inboxScroll = document.getElementById('inboxScroll');
+const inboxToggle = document.getElementById('inboxToggle');
+const inboxToggleIcon = inboxToggle.querySelector('img');
+const inboxNavLinks = inboxNav.querySelectorAll('.inbox-nav-link');
+let inboxPrototypeUrl = 'https://design-sprint-prototype.netlify.app/';
+
+function setInboxActive(id) {
+  inboxNavLinks.forEach(link => link.classList.toggle('is-active', link.dataset.target === id));
+}
+
+function openInboxStudy() {
+  if (window.innerWidth > 700) {
+    inboxNav.classList.remove('collapsed');
+    inboxToggleIcon.src = 'assets/cs-panel.svg';
+  }
+  inboxScroll.scrollTop = 0;
+  setInboxActive('inbox-overview');
+  inboxModal.classList.add('open');
+}
+
+inboxNavLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    const target = document.getElementById(link.dataset.target);
+    if (!target) return;
+    setInboxActive(link.dataset.target);
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.innerWidth <= 700) link.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  });
+});
+
+inboxToggle.addEventListener('click', () => {
+  const collapsed = inboxNav.classList.toggle('collapsed');
+  inboxToggleIcon.src = collapsed ? 'assets/cs-panel-open.svg' : 'assets/cs-panel.svg';
+});
+
+document.querySelectorAll('.inbox-prototype').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (inboxPrototypeUrl) window.open(inboxPrototypeUrl, '_blank', 'noopener');
+  });
+});
+
+document.getElementById('inboxModalClose').addEventListener('click', () => inboxModal.classList.remove('open'));
+inboxModal.addEventListener('click', (e) => {
+  if (e.target === inboxModal) inboxModal.classList.remove('open');
+});
+
+const inboxSpy = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) setInboxActive(entry.target.id);
+  });
+}, { root: inboxScroll, rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+inboxScroll.querySelectorAll('.inbox-block, .inbox-study').forEach(section => inboxSpy.observe(section));
 
 // ── Mario runner game ──
 // Single state-driven requestAnimationFrame loop (only ticks while

@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;600&family=Jersey+10&family=Jersey+25&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;600;700&family=Jersey+10&family=Jersey+25&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="assets/mario-stop.png" />
   <link rel="preload" as="image" href="assets/goomba-1.png" />
   <link rel="stylesheet" href="styles.css" />
@@ -102,6 +102,16 @@
         </div>
       </div>
       <span class="icon-label">CV.pdf</span>
+    </a>
+
+    <!-- GitHub: desktop column only (Figma Main, between CV and Send a message) -->
+    <a class="icon-item icon-desktop-only" href="https://github.com/oksana-product-designer" target="_blank" rel="noopener">
+      <div class="ic">
+        <img class="ic-github-mark" src="assets/github-mark.svg" alt="" />
+        <div class="ic-cv-badge"></div>
+        <img class="ic-github-arrow" src="assets/github-arrow.svg" alt="" />
+      </div>
+      <span class="icon-label">GitHub</span>
     </a>
 
     <!-- Send a message -->
@@ -364,6 +374,17 @@
         <div class="projects-grid-area">
           <div class="projects-grid">
 
+            <div class="proj-item" data-title="Primary inbox for accountant" data-label-mobile="Primary inbox" data-desc="From a design sprint workshop to a validated prototype" data-domain="Finance" data-task="Design sprint" data-image="assets/inbox-hero.png">
+              <div class="ic-proj ic-proj-web">
+                <div class="ic-proj-screen"></div>
+                <div class="ic-proj-bar ic-proj-bar-top"></div>
+                <div class="ic-proj-bar ic-proj-bar-bot"></div>
+                <div class="ic-proj-stand"><img loading="lazy" decoding="async" src="assets/e75d271b.svg" alt="" /></div>
+                <div class="ic-proj-icon"><img loading="lazy" decoding="async" src="assets/62db6943.svg" alt="" /></div>
+              </div>
+              <span class="proj-label">Primary inbox for accountant</span>
+            </div>
+
             <div class="proj-item" data-title="Sowise | Contract management tool" data-label-mobile="Sowise Tool" data-desc="Improved the user satisfaction to 75% with no frictions in the development process." data-domain="SaaS" data-task="Redesign existing product" data-image="assets/1a4db9f0.webp">
               <div class="ic-proj ic-proj-web">
                 <div class="ic-proj-screen"></div>
@@ -607,6 +628,372 @@
     </div>
   </div>
 
+  <!-- Primary inbox case study -->
+  <div class="modal-overlay" id="inboxModal">
+    <div class="modal-container">
+      <div class="casestudy-window inbox-window">
+        <div class="modal-titlebar">
+          <div class="modal-titlebar-left">
+            <div class="casestudy-title-icon">
+              <div class="csic-bar-top"></div>
+              <div class="csic-screen"></div>
+              <div class="csic-globe"><img src="assets/62db6943.svg" alt="" /></div>
+              <div class="csic-bar-bot"></div>
+              <div class="csic-stand"><img src="assets/e75d271b.svg" alt="" /></div>
+            </div>
+            <span class="modal-title-text"><span class="inbox-title-desktop">Primary inbox for accountants</span><span class="inbox-title-mobile">Primary inbox | Case study</span></span>
+          </div>
+          <div class="modal-titlebar-controls">
+            <div class="modal-btn modal-btn-minimize" aria-disabled="true"></div>
+            <div class="modal-btn modal-btn-maximize" aria-disabled="true">
+              <div style="width:14px;height:14px;border:1px solid white;border-radius:1px;position:relative;">
+                <div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:white;border-radius:1px 1px 0 0;"></div>
+              </div>
+            </div>
+            <button class="modal-btn modal-btn-close" id="inboxModalClose" aria-label="Close">
+              <img src="assets/1c8be973.svg" style="width:24px;height:24px;margin:-1px;" alt="×" />
+            </button>
+          </div>
+        </div>
+
+        <div class="inbox-body">
+          <nav class="inbox-nav" id="inboxNav" aria-label="Contents">
+            <div class="inbox-nav-heading">Contents</div>
+            <button type="button" class="inbox-nav-link is-overview is-active" data-target="inbox-overview">Overview</button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-context"><span class="inbox-nav-long">01 Context</span><span class="inbox-nav-short">Context</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-process"><span class="inbox-nav-long">02 Process</span><span class="inbox-nav-short">Process</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-research"><span class="inbox-nav-long">03 Research</span><span class="inbox-nav-short">Research</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-workshop"><span class="inbox-nav-long">04 Workshop</span><span class="inbox-nav-short">Workshop</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-design"><span class="inbox-nav-long">05 Design</span><span class="inbox-nav-short">Design</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-validation"><span class="inbox-nav-long">06 Validation</span><span class="inbox-nav-short">Validation</span></button>
+            <button type="button" class="inbox-nav-link" data-target="inbox-reflection"><span class="inbox-nav-long">07 Reflection</span><span class="inbox-nav-short">Reflection</span></button>
+          </nav>
+
+          <div class="inbox-main">
+            <div class="casestudy-toolbar">
+              <div class="casestudy-toggle-wrap" id="inboxToggle" title="Toggle contents">
+                <div class="casestudy-toggle-inner">
+                  <img src="assets/cs-panel.svg" alt="Toggle contents" />
+                </div>
+              </div>
+              <div class="casestudy-toolbar-spacer"></div>
+              <button type="button" class="casestudy-btn-outline-wrap inbox-prototype">
+                <div class="casestudy-btn-outline-inner">
+                  Interactive prototype
+                  <span class="csic-btn-icon"><img src="assets/cs-play.svg" alt="" /></span>
+                </div>
+              </button>
+            </div>
+
+            <div class="inbox-scroll" id="inboxScroll">
+              <article class="inbox-article">
+
+                <section class="inbox-block" id="inbox-overview">
+                  <div class="inbox-tags">
+                    <span>Design sprint</span>
+                    <span>Research and validation</span>
+                    <span>Accounting software</span>
+                  </div>
+                  <h2 class="inbox-title">From a design sprint workshop to a validated prototype</h2>
+                  <p class="inbox-lead">Primary inbox for accountants is a tool that gathers incoming primary documents from every channel in one place and moves them into accounting software. I took part in the design sprint as a team member, then prepared, ran and synthesized the validation interviews and usability tests.</p>
+                  <dl class="inbox-meta">
+                    <div>
+                      <dt>My role</dt>
+                      <dd>Sprint participant, UX researcher, product designer</dd>
+                    </div>
+                    <div>
+                      <dt>Deliverables</dt>
+                      <dd>App design, clickable prototype, research report</dd>
+                    </div>
+                    <div>
+                      <dt>Team</dt>
+                      <dd>A product manager, 2 designers, a developer, 2 domain experts, 2 client stakeholders</dd>
+                    </div>
+                    <div>
+                      <dt>Timeline</dt>
+                      <dd>May-July 2026</dd>
+                    </div>
+                  </dl>
+                  <img class="inbox-hero" src="assets/inbox-hero.png" alt="Laptop showing the primary inbox for accountants" />
+                  <div class="inbox-stats">
+                    <div><strong>9</strong><span>interviews with accountants conducted across 7 industries</span></div>
+                    <div><strong>78%</strong><span>interested in the product, against a 60% target</span></div>
+                    <div><strong>6.6</strong><span>ease score (SEQ), against about 5.5 in typical studies</span></div>
+                    <div><strong>7</strong><span>Must-have modules set in the MVP scope</span></div>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-context">
+                  <div class="inbox-heading"><span class="inbox-num">01</span><h2>Context and challenge</h2></div>
+                  <p class="inbox-body-copy">Accountants receive primary documents through several channels and process them in bulk. Volume depends heavily on the company: about 10 documents a month for one, 100 for another, and 200 to 300 for some. One accountant described the routine as collecting a month of payments, then sitting down for three to four days to work through all of it.</p>
+                  <div class="inbox-quote-row">
+                    <blockquote class="inbox-quote">
+                      <p>“I collect the payments for the month, then I sit down, and it takes three or four days to process all this primary documentation.”</p>
+                      <p class="inbox-original">«Я збираю оплати за місяць, потім сідаю і днів три-чотири всю цю первинку опрацьовую»</p>
+                    </blockquote>
+                    <aside class="inbox-callout">
+                      <h3>Hypothesis</h3>
+                      <p>If we present a tool that collects primary documents from different channels and loads them quickly into accounting software, more than 60% of the accountants we interview will want to try it.</p>
+                    </aside>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-process">
+                  <div class="inbox-heading"><span class="inbox-num">02</span><h2>Process and my role</h2></div>
+                  <p class="inbox-body-copy">The project ran in 5 stages, from planning the workshop to testing the idea with real accountants.</p>
+                  <div class="inbox-stages">
+                    <div class="inbox-stage">
+                      <span class="inbox-stage-kicker">Stage 1</span>
+                      <h3>Workshop planning</h3>
+                      <p>Planning the sprint, setting priorities with the team.</p>
+                      <span class="inbox-role">Team member</span>
+                    </div>
+                    <div class="inbox-stage">
+                      <span class="inbox-stage-kicker">Stage 2</span>
+                      <h3>Pre-workshop research</h3>
+                      <p>Conducting a domain research and user interviews.</p>
+                      <span class="inbox-role">Lead researcher</span>
+                    </div>
+                    <div class="inbox-stage">
+                      <span class="inbox-stage-kicker">Stage 3</span>
+                      <h3>Design sprint workshop</h3>
+                      <p>A team workshop to explore ideas and shape the solution.</p>
+                      <span class="inbox-role">Team member</span>
+                    </div>
+                    <div class="inbox-stage">
+                      <span class="inbox-stage-kicker">Stage 4</span>
+                      <h3>Design + prototype</h3>
+                      <p>Design app screens and build a clickable prototype.</p>
+                      <span class="inbox-role">Lead designer</span>
+                    </div>
+                    <div class="inbox-stage">
+                      <span class="inbox-stage-kicker">Stage 5</span>
+                      <h3>Testing + validation</h3>
+                      <p>Usability tests and interviews to validate ideas with users.</p>
+                      <span class="inbox-role">Lead researcher</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-research">
+                  <div class="inbox-heading"><span class="inbox-num">03</span><h2>Pre-workshop research</h2></div>
+                  <p class="inbox-body-copy">Before the workshop, the team gathered three kinds of input so the sprint started from evidence rather than assumptions.</p>
+                  <div class="inbox-cards">
+                    <article class="inbox-card">
+                      <h3>Domain research findings</h3>
+                      <ul>
+                        <li>Accounting runs in overlapping monthly, quarterly, and yearly cycles, so deadlines compete.</li>
+                        <li>Work differs by industry (IT, trade, manufacturing, agro), so no single process fits all.</li>
+                        <li>BAS/1C, MEDOC, and Excel cover most tasks, yet the role also spans HR and banks.</li>
+                      </ul>
+                    </article>
+                    <article class="inbox-card">
+                      <h3>User interviews findings</h3>
+                      <ul>
+                        <li>Verification is constant: accountants re-check what systems generate before moving on.</li>
+                        <li>Late or missing primary documents, often on paper, are the main blocker to closing a period.</li>
+                        <li>They need confidence that information is safe to apply and a buffer before deadlines.</li>
+                      </ul>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-workshop">
+                  <div class="inbox-heading"><span class="inbox-num">04</span><h2>Design sprint workshop</h2></div>
+                  <div class="inbox-workshop">
+                    <div class="inbox-workshop-copy">
+                      <p class="inbox-body-copy">The team ran a design sprint workshop. I took part as a team member rather than as the facilitator, so the section below focuses on what the team produced and what carried forward into the prototype.</p>
+                      <p class="inbox-note">We developed a concept for an accounting tool to manage primary documents, plus a storyboard of its core features and user journey. These will guide future designs and testing with potential customers.</p>
+                    </div>
+                    <div class="inbox-photos">
+                      <img src="assets/inbox-workshop-1.png" alt="Workshop whiteboard with interface sketches and sticky notes" />
+                      <img src="assets/inbox-workshop-2.png" alt="Workshop notes from the design sprint" />
+                    </div>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-design">
+                  <div class="inbox-heading"><span class="inbox-num">05</span><h2>From sprint output to MVP scope</h2></div>
+                  <p class="inbox-body-copy">The workshop output became an app design and a clickable prototype. The scope was framed as one end-to-end scenario, so every module in the MVP serves the same path from receiving a document to handing it over to accounting.</p>
+                  <button type="button" class="inbox-proto-btn inbox-prototype">
+                    <span class="inbox-proto-inner">
+                      Open interactive prototype
+                      <img src="assets/21f261aa.svg" alt="" />
+                    </span>
+                  </button>
+                  <div class="inbox-screens">
+                    <figure class="inbox-screen inbox-screen-wide">
+                      <figcaption><span class="inbox-mod">M1</span><span>Inbox</span><span class="inbox-count">1 / 3</span></figcaption>
+                      <img src="assets/inbox-screen-inbox.png" alt="Primary inbox screen listing incoming documents" />
+                    </figure>
+                    <div class="inbox-screens-row">
+                      <figure class="inbox-screen">
+                        <figcaption><span class="inbox-mod">M4</span><span>Document card</span><span class="inbox-count">2 / 3</span></figcaption>
+                        <img src="assets/inbox-screen-card.png" alt="Document card screen" />
+                      </figure>
+                      <figure class="inbox-screen">
+                        <figcaption><span class="inbox-mod">M4</span><span>Uploading a new version</span><span class="inbox-count">3 / 3</span></figcaption>
+                        <img src="assets/inbox-screen-upload.png" alt="Uploading a new version of a document" />
+                      </figure>
+                    </div>
+                  </div>
+                  <div class="inbox-scope">
+                    <div class="inbox-scope-in">
+                      <h3>In the MVP, all Must priority</h3>
+                      <div class="inbox-chips">
+                        <span class="is-hot"><b>M1</b> Inbox</span>
+                        <span><b>M2</b> Document collection</span>
+                        <span><b>M3</b> Recognition</span>
+                        <span class="is-hot"><b>M4</b> Document card</span>
+                        <span><b>M5</b> Transfer to BAS</span>
+                        <span><b>M6</b> Archive</span>
+                        <span><b>M7</b> Access</span>
+                      </div>
+                      <p>Highlighted modules are shown above</p>
+                    </div>
+                    <div class="inbox-scope-out">
+                      <h3>Outside the MVP</h3>
+                      <ul>
+                        <li>Registration and roles</li>
+                        <li>All receiving channels</li>
+                        <li>All document types</li>
+                        <li>Outgoing primary documents</li>
+                        <li>A separate mobile version</li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="inbox-study" id="inbox-validation">
+                  <header class="inbox-study-banner">
+                    <div class="inbox-study-title">
+                      <span class="inbox-num">06</span>
+                      <h2>Research and validation</h2>
+                    </div>
+                    <p>The part of the project I owned end to end</p>
+                  </header>
+                  <div class="inbox-study-body">
+                    <div class="inbox-sub">
+                      <h3>Method</h3>
+                      <p class="inbox-body-copy">Each session was a hybrid moderated format: an interview about how the accountant handles primary documents today, followed by a usability test on the clickable prototype. I wrote the script, moderated the sessions and synthesized the results.</p>
+                      <div class="inbox-method">
+                        <div><strong>9</strong><span>interviews</span></div>
+                        <div><strong>7</strong><span>different industries</span></div>
+                        <div><strong>5</strong><span>chief accountants</span></div>
+                        <div><strong>4</strong><span>working with primary documents</span></div>
+                      </div>
+                    </div>
+
+                    <div class="inbox-sub">
+                      <h3>Idea validation: hypothesis confirmed</h3>
+                      <p class="inbox-body-copy">Interest cleared the <strong>60% target</strong>. Five of nine interviewees gave the top score of 5. A sixth showed equally strong interest without giving a number, and a seventh gave a 4. One was conditionally positive and one was cautiously skeptical.</p>
+                      <div class="inbox-bars" aria-hidden="true">
+                        <span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span><span class="b5"></span>
+                      </div>
+                      <div class="inbox-bar-labels">
+                        <span>Score 5 (5)</span>
+                        <span>Strong, no number (1)</span>
+                        <span>Score 4 (1)</span>
+                        <span>Conditional (1)</span>
+                        <span>Skeptical (1)</span>
+                      </div>
+                      <div class="inbox-price">
+                        <div>
+                          <h3>Price signal</h3>
+                          <p>Five interviewees called 800 UAH per user per month reasonable.</p>
+                        </div>
+                        <strong>800 UAH</strong>
+                      </div>
+                    </div>
+
+                    <div class="inbox-sub">
+                      <h3>Usability results</h3>
+                      <div class="inbox-metrics">
+                        <article>
+                          <h4>SEQ, perceived ease</h4>
+                          <strong class="is-blue">6.6</strong>
+                          <div class="inbox-seq" aria-hidden="true">
+                            <div class="inbox-seq-track"><span style="width:91.6%"></span></div>
+                            <div class="inbox-seq-track"><span class="is-gray" style="width:76.9%"></span></div>
+                          </div>
+                          <p>Blue: this prototype. Gray: about 5.5, typical in studies.</p>
+                        </article>
+                        <article>
+                          <h4>TSR, task success rate</h4>
+                          <strong>100%</strong>
+                          <p>Assisted: part of the tasks needed a hint from the moderator.</p>
+                        </article>
+                        <article>
+                          <h4>Error count</h4>
+                          <strong>~13</strong>
+                          <p>Concentrated in two places of the interface, which made them easy to target.</p>
+                        </article>
+                      </div>
+                    </div>
+
+                    <div class="inbox-sub">
+                      <h3>What accountants told us</h3>
+                      <div class="inbox-quotes">
+                        <figure>
+                          <h4>The value is one place</h4>
+                          <blockquote>“When you go to Vchasno, and there, and here… it’s really inconvenient. When it’s all in one place, it’s like a locker. You know where to go, everything is there.”</blockquote>
+                          <figcaption>«Коли ти йдеш і у Вчасно, і туди, і сюди... ну дуже незручно. А коли в одному місці це як шкафчик. Ти знаєш, куди йти, все у тебе там»</figcaption>
+                        </figure>
+                        <figure>
+                          <h4>Make it a real hub</h4>
+                          <blockquote>“If you’re building a hub, let it be a real hub, not inbound documents only. Then it’s not what it’s supposed to be.”</blockquote>
+                          <figcaption>«Якщо ви робите хаб, то нехай це вже буде хаб, а не так, що тільки вхідні. Це тоді не воно»</figcaption>
+                        </figure>
+                      </div>
+                      <p class="inbox-caption">Quotes are translated from Ukrainian. Originals appear beneath each one.</p>
+                    </div>
+
+                    <div class="inbox-sub">
+                      <h3>Risks to design around</h3>
+                      <div class="inbox-risks">
+                        <article>
+                          <h4>Recognition accuracy</h4>
+                          <p>“Even if it does enter the items, the question is whether it enters them correctly.”</p>
+                        </article>
+                        <article>
+                          <h4>Transfer into accounting</h4>
+                          <p>“It’s very important to me that the chain of documents is built in the accounting database.”</p>
+                        </article>
+                        <article>
+                          <h4>Distrust of cloud storage</h4>
+                          <p>One team lost documents in a service at the start of the war in 2022, and has duplicated to a drive ever since.</p>
+                        </article>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="inbox-block" id="inbox-reflection">
+                  <div class="inbox-heading"><span class="inbox-num">07</span><h2>Outcome and reflection</h2></div>
+                  <div class="inbox-cards inbox-cards-3">
+                    <article class="inbox-card inbox-card-soft">
+                      <h3>Impact</h3>
+                      <p>The client took the validated concept into development and used the findings to prioritize the MVP scope.</p>
+                    </article>
+                    <article class="inbox-card inbox-card-soft">
+                      <h3>What I would change</h3>
+                      <p>Hints given during usability tests could inflate task success. Next time I would agree on when and how to hint before the sessions and record hinted tasks separately.</p>
+                    </article>
+                    <article class="inbox-card inbox-card-soft">
+                      <h3>What I learned</h3>
+                      <p>Validation fits inside a sprint when the scope is narrow. A prepared script and a clickable prototype are enough to turn assumptions into evidence within days.</p>
+                    </article>
+                  </div>
+                </section>
+
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bin modal -->
   <div class="modal-overlay" id="binModal">
     <div class="modal-container">
@@ -679,6 +1066,10 @@
               <div class="bin-item" data-image="assets/bin-bliss.jpg" data-download="assets/download-bliss.jpg" data-caption="Another option for meeting backgrounds or desktop wallpaper">
                 <div class="ic-bin-photo"><img class="ic-bin-photo-glyph" src="assets/bin-photo-mask.svg" alt="" /><img class="ic-bin-photo-dot" src="assets/bin-photo-dot.svg" alt="" /></div>
                 <span class="bin-item-label">Bliss Wallpaper.jpg</span>
+              </div>
+              <div class="bin-item" data-image="assets/bin-anger.jpg" data-download="assets/download-anger.jpg">
+                <div class="ic-bin-photo"><img class="ic-bin-photo-glyph" src="assets/bin-photo-mask.svg" alt="" /><img class="ic-bin-photo-dot" src="assets/bin-photo-dot.svg" alt="" /></div>
+                <span class="bin-item-label">AngerExplosion.jpg</span>
               </div>
             </div>
           </div>
