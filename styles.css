@@ -747,6 +747,15 @@ body.game-active .sidebar { display: none; }
   color: #262b37; cursor: url('assets/cursor-pointer.svg') 11 1, pointer; white-space: nowrap;
 }
 .btn-send-inner:hover { background: #f5b84a; }
+.msg-error {
+  font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 13px; line-height: 20px;
+  color: #8a2a14; background: #fbe3dc; border: 1px solid #d54629; border-radius: 4px;
+  padding: 8px 12px; margin: 0 0 16px;
+}
+.msg-success .modal-subtext { margin-bottom: 24px; }
+.msg-success .modal-heading::before { content: '✓ '; color: #2f8f4e; }
+.btn-send:disabled { opacity: 0.6; cursor: progress; }
+.btn-send:disabled .btn-send-inner { cursor: progress; }
 .btn-send-icon { width: 16px; height: 16px; overflow: hidden; position: relative; flex-shrink: 0; }
 .btn-send-icon img { position: absolute; inset: 0; width: 100%; height: 100%; }
 

@@ -185,29 +185,39 @@
       <div class="modal-body">
         <h2 class="modal-heading">Initiate a conversation</h2>
         <p class="modal-subtext">Whether you have a project in mind where I can help or any other topic to discuss,<br>feel free to send it to me. I am always happy to talk!</p>
-        <div class="modal-fields-row">
-          <div class="modal-field">
-            <label class="field-label" for="msg-name">Your name:</label>
-            <input class="field-input" id="msg-name" type="text" placeholder="How may I call you?" />
-          </div>
-          <div class="modal-field">
-            <label class="field-label" for="msg-email">Your email:</label>
-            <input class="field-input" id="msg-email" type="email" placeholder="How may I contact you back?" />
-          </div>
-        </div>
-        <div class="modal-field-full">
-          <label class="field-label" for="msg-text">Your message here:</label>
-          <textarea class="field-input field-textarea" id="msg-text" placeholder="What's on your mind?"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-send">
-            <div class="btn-send-inner">
-              Send message
-              <div class="btn-send-icon">
-                <img loading="lazy" decoding="async" src="assets/70bd7535.svg" alt="" />
-              </div>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="msgForm">
+          <input type="hidden" name="form-name" value="contact">
+          <p hidden><label>Skip: <input name="bot-field"></label></p>
+          <div class="modal-fields-row">
+            <div class="modal-field">
+              <label class="field-label" for="msg-name">Your name:</label>
+              <input class="field-input" id="msg-name" name="name" type="text" required placeholder="How may I call you?" />
             </div>
-          </button>
+            <div class="modal-field">
+              <label class="field-label" for="msg-email">Your email:</label>
+              <input class="field-input" id="msg-email" name="email" type="email" required placeholder="How may I contact you back?" />
+            </div>
+          </div>
+          <div class="modal-field-full">
+            <label class="field-label" for="msg-text">Your message here:</label>
+            <textarea class="field-input field-textarea" id="msg-text" name="message" required placeholder="What's on your mind?"></textarea>
+          </div>
+          <p class="msg-error" id="msgError" role="alert" hidden>Couldn't send your message. Please check your connection and try again.</p>
+          <div class="modal-footer">
+            <button class="btn-send" type="submit">
+              <div class="btn-send-inner">
+                Send message
+                <div class="btn-send-icon">
+                  <img loading="lazy" decoding="async" src="assets/70bd7535.svg" alt="" />
+                </div>
+              </div>
+            </button>
+          </div>
+        </form>
+        <div class="msg-success" id="msgSuccess" role="status" hidden>
+          <h2 class="modal-heading">Message sent</h2>
+          <p class="modal-subtext">Thanks for reaching out. I'll get back to you soon.</p>
+          <div class="modal-footer"><button class="btn-send" type="button" id="msgSuccessClose"><div class="btn-send-inner">Close</div></button></div>
         </div>
       </div>
     </div>

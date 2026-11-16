@@ -46,6 +46,44 @@ openBtn.addEventListener('click', (e) => { e.preventDefault(); modal.classList.a
 closeBtn.addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
 
+// Contact form (Netlify Forms)
+const msgForm      = document.getElementById('msgForm');
+const msgError     = document.getElementById('msgError');
+const msgSuccess   = document.getElementById('msgSuccess');
+const msgSuccessBtn = document.getElementById('msgSuccessClose');
+const msgSendBtn   = msgForm.querySelector('.btn-send');
+
+function resetMsgForm() {
+  msgForm.reset();
+  msgForm.hidden = false;
+  msgSuccess.hidden = true;
+  msgError.hidden = true;
+}
+// Reopening after a successful send (closed via X / backdrop) starts a fresh form
+openBtn.addEventListener('click', () => { if (!msgSuccess.hidden) resetMsgForm(); });
+msgSuccessBtn.addEventListener('click', () => { modal.classList.remove('open'); resetMsgForm(); });
+
+msgForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  msgError.hidden = true;
+  msgSendBtn.disabled = true;
+  try {
+    const res = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(msgForm)).toString(),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    msgForm.reset();
+    msgForm.hidden = true;
+    msgSuccess.hidden = false;
+  } catch (err) {
+    msgError.hidden = false; // keep the user's input
+  } finally {
+    msgSendBtn.disabled = false;
+  }
+});
+
 // About modal
 const aboutModal    = document.getElementById('aboutModal');
 const aboutOpenBtn  = document.querySelector('a[href="#about"]');
